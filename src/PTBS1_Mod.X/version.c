@@ -36,7 +36,7 @@
 
 #include "version.h"
 
-char version[] = "2.00";
+char version[] = "1.00";
 
 static const uint8_t model[] = {
 	// 'P'
