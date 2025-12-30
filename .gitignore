@@ -1,3 +1,14 @@
 schematic/PTBS-1-backups/PTBS-1-2025-02-18_144639.zip
 *.kicad_prl
 schematic/PTBS-1-backups/PTBS-1-2025-03-06_095820.zip
+/src/PTBS1_Mod.X/build
+/src/PTBS1_Mod.X/dist
+/src/PTBS1_Mod.X/nbproject/private
+/src/PTBS1_Mod.X/queuelogs
+src/PTBS1_Mod.X/nbproject/Makefile-default.mk
+src/PTBS1_Mod.X/nbproject/Makefile-genesis.properties
+src/PTBS1_Mod.X/nbproject/Makefile-impl.mk
+src/PTBS1_Mod.X/nbproject/Makefile-local-default.mk
+src/PTBS1_Mod.X/nbproject/Makefile-variables.mk
+src/PTBS1_Mod.X/defmplabxtrace.log
+src/PTBS1_Mod.X/defmplabxtrace.log.inx
