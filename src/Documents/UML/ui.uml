@@ -8,51 +8,58 @@ Initialize : MUTE off
 Initialize : PGM 1-1
 
 
-Initialize -> MAN
+Initialize --> MODE_MAN
 
-state MAN : Manual MODE
-state PGM : Program MODE
+state MODE_MAN : Manual MODE
 
-MAN <- PGM : Press [MAN/PGM]
+' MODE_MAN -> MODE_MAN				: Press [LOOP#]
+MODE_MAN --> MODE_SEL_NUM			: Press [MAN/PGM]
+MODE_MAN --> MODE_SEL_BANK			: Press [BANK]
+MODE_MAN --> MODE_WRITE_NUM			: Press and Hold [MAN/PGM]
+MODE_MAN --> MODE_WRITE_BANK		: Press and Hold [BANK]
 
 
-state Select_Bank_Num {
-	state Select_Num
-	Select_Num -> Select_Bank : Press [BANK]
-	Select_Num <- Select_Bank : Press [BANK]
-	Select_Num --> PGM : Press [LOOP#]
+state MODE_PGM : Program MODE
 
-	state Select_Bank
-	Select_Num <- Select_Bank : Press [LOOP#]
+' MODE_PGM -> MODE_PGM				: Press [LOOP#]
+MODE_PGM -left-> MODE_MAN			: Press [MAN/PGM]
+MODE_PGM --> MODE_SEL_BANK			: Press [BANK]
+MODE_PGM --> MODE_WRITE_NUM			: Press and Hold [MAN/PGM]
+MODE_PGM --> MODE_WRITE_BANK		: Press and Hold [BANK]
 
-	state Select_Cancel
-	Select_Cancel <-- Select_Num : Press [MAN/PGM]
-	Select_Cancel <-- Select_Bank : Press [MAN/PGM]
-	Select_Cancel --> MAN 
+
+state SEL_BANK_NUM {
+	state MODE_SEL_NUM 
+	state MODE_SEL_BANK 
 }
 
-state PGM_Write {
-	state Wait_Write_Num
-	Wait_Write_Num -> Wait_Write_Bank : Press [BANK]
-	Wait_Write_Num <- Wait_Write_Bank : Press [BANK]
-	Wait_Write_Num --> Write_Memory : Press [LOOP#]
-	
-	state Wait_Write_Bank
-	Wait_Write_Bank -> Wait_Write_Num: Press [LOOP#]
+MODE_SEL_NUM --> MODE_SEL_BANK		: Press [BANK]
+MODE_SEL_NUM -up-> MODE_PGM			: Press [LOOP#]
+MODE_SEL_NUM -up-> MODE_MAN			: Press [MAN/PGM]
+MODE_SEL_NUM -> MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
+MODE_SEL_NUM -> MODE_WRITE_BANK		: Press and Hold [BANK]
 
-	Wait_Write_Num -->  Write_Cancel  : Press [MAN/PGM]
-	Wait_Write_Bank -->  Write_Cancel : Press [MAN/PGM]
+MODE_SEL_BANK --> MODE_SEL_NUM		: Press [BANK]
+MODE_SEL_BANK --> MODE_SEL_NUM		: Press [LOOP#]
+MODE_SEL_BANK -up-> MODE_MAN		: Press [MAN/PGM]
+MODE_SEL_BANK --> MODE_WRITE_NUM	: Press and Hold [MAN/PGM]
+MODE_SEL_BANK --> MODE_WRITE_BANK	: Press and Hold [BANK]
 
+state WRITE_BANK_NUM {
+	state MODE_WRITE_NUM 
+	state MODE_WRITE_BANK 
 }
 
+MODE_WRITE_NUM --> MODE_WRITE_BANK	: Press [BANK]
 
-MAN --> Select_Num : Press [MAN/PGM]
+MODE_WRITE_NUM -up-> MODE_MAN		: Press [MAN/PGM]
 
-MAN --> Wait_Write_Num  : Press and Hold [MAN/PGM]
-PGM --> Wait_Write_Num : Press and Hold [MAN/PGM]
+MODE_WRITE_NUM --> Write_Memory		: Press [LOOP#]
+Write_Memory -up-> MODE_PGM
 
-Write_Memory --> PGM
-Write_Cancel --> MAN
+MODE_WRITE_BANK --> MODE_WRITE_NUM	: Press [LOOP#]
+MODE_WRITE_BANK -up-> MODE_MAN		: Press [MAN/PGM]
+MODE_WRITE_BANK -> MODE_WRITE_NUM	: Press [BANK]
 
 
 @enduml
