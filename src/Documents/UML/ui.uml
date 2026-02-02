@@ -1,0 +1,58 @@
+@startuml
+
+hide empty description
+
+[*] --> Initialize : Power ON
+Initialize : All LOOP off
+Initialize : MUTE off
+Initialize : PGM 1-1
+
+
+Initialize -> MAN
+
+state MAN : Manual MODE
+state PGM : Program MODE
+
+MAN <- PGM : Press [MAN/PGM]
+
+
+state Select_Bank_Num {
+	state Select_Num
+	Select_Num -> Select_Bank : Press [BANK]
+	Select_Num <- Select_Bank : Press [BANK]
+	Select_Num --> PGM : Press [LOOP#]
+
+	state Select_Bank
+	Select_Num <- Select_Bank : Press [LOOP#]
+
+	state Select_Cancel
+	Select_Cancel <-- Select_Num : Press [MAN/PGM]
+	Select_Cancel <-- Select_Bank : Press [MAN/PGM]
+	Select_Cancel --> MAN 
+}
+
+state PGM_Write {
+	state Wait_Write_Num
+	Wait_Write_Num -> Wait_Write_Bank : Press [BANK]
+	Wait_Write_Num <- Wait_Write_Bank : Press [BANK]
+	Wait_Write_Num --> Write_Memory : Press [LOOP#]
+	
+	state Wait_Write_Bank
+	Wait_Write_Bank -> Wait_Write_Num: Press [LOOP#]
+
+	Wait_Write_Num -->  Write_Cancel  : Press [MAN/PGM]
+	Wait_Write_Bank -->  Write_Cancel : Press [MAN/PGM]
+
+}
+
+
+MAN --> Select_Num : Press [MAN/PGM]
+
+MAN --> Wait_Write_Num  : Press and Hold [MAN/PGM]
+PGM --> Wait_Write_Num : Press and Hold [MAN/PGM]
+
+Write_Memory --> PGM
+Write_Cancel --> MAN
+
+
+@enduml
