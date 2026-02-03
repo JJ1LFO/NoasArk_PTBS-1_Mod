@@ -1,0 +1,49 @@
+@startuml
+
+hide empty description
+
+
+state GetSW0 {
+	state GetADVal0 : Read AN0
+	state JudgeSW0 : return SW
+
+	[*] -> GetADVal0
+	GetADVal0 -> JudgeSW0
+	JudgeSW0 -> [*]
+}
+
+state GetSW1 {
+	state GetADVal1 : Read AN0
+	state JudgeSW1 : return SW
+
+	[*] -> GetADVal1
+	GetADVal1 -> JudgeSW1
+	JudgeSW1 -> [*]
+}
+
+
+[*] --> GetSW0
+GetSW0 --> CheckHoldTime	: last == (now = SW)
+GetSW0 --> GetTick0	: last != (now = SW)
+
+state GetTick0 : lastTick = TickGet()
+state Wait2ms : for debounce
+GetTick0 --> Wait2ms
+Wait2ms --> GetSW1
+
+state Issue_SW_CHANGED_EVENT
+	Issue_SW_CHANGED_EVENT : last = SW
+	Issue_SW_CHANGED_EVENT : changed = true
+
+GetSW1 --> Issue_SW_CHANGED_EVENT : now == SW
+GetSW1 --> [*] : now != SW
+Issue_SW_CHANGED_EVENT --> [*]
+
+
+state CheckHoldTime : changed && (2 sec. < (TickGet() - lastTick))
+CheckHoldTime --> [*] : No
+state Issue_SW_HOLD_EVENT : changed = false 
+CheckHoldTime --> Issue_SW_HOLD_EVENT : Yes
+Issue_SW_HOLD_EVENT --> [*]
+
+@enduml
