@@ -48,13 +48,13 @@ MODE_SEL_BANK --> MODE_WRITE_BANK	: Press and Hold [BANK]
 state WRITE_BANK_NUM {
 	state MODE_WRITE_NUM 
 	state MODE_WRITE_BANK 
+	MODE_WRITE_NUM -> Write_Memory		: Press [LOOP#]
 }
 
 MODE_WRITE_NUM --> MODE_WRITE_BANK	: Press [BANK]
 
 MODE_WRITE_NUM -up-> MODE_MAN		: Press [MAN/PGM]
 
-MODE_WRITE_NUM --> Write_Memory		: Press [LOOP#]
 Write_Memory -up-> MODE_PGM
 
 MODE_WRITE_BANK --> MODE_WRITE_NUM	: Press [LOOP#]
