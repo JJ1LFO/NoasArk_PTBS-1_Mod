@@ -5,16 +5,18 @@ hide empty description
 
 state GetSW0 {
 	state GetADVal0 : Read AN0
-	state JudgeSW0 : return SW
+	state JudgeSW0 : AD val to SW
+	state UpdateCurrSW : currSW = SW
 
 	[*] -> GetADVal0
 	GetADVal0 -> JudgeSW0
-	JudgeSW0 -> [*]
+	JudgeSW0 -> UpdateCurrSW
+	UpdateCurrSW -> [*]
 }
 
 state GetSW1 {
 	state GetADVal1 : Read AN0
-	state JudgeSW1 : return SW
+	state JudgeSW1 : AD val to SW
 
 	[*] -> GetADVal1
 	GetADVal1 -> JudgeSW1
@@ -23,20 +25,19 @@ state GetSW1 {
 
 
 [*] --> GetSW0
-GetSW0 --> CheckHoldTime	: last == (now = SW)
-GetSW0 --> GetTick0	: last != (now = SW)
+GetSW0 --> CheckHoldTime	: lastSW == currSW
+GetSW0 --> Wait2ms	: lastSW != currSW
 
-state GetTick0 : lastTick = TickGet()
-state Wait2ms : for debounce
-GetTick0 --> Wait2ms
+state Wait2ms :	for debounce
 Wait2ms --> GetSW1
 
 state Issue_SW_CHANGED_EVENT
-	Issue_SW_CHANGED_EVENT : last = SW
+	Issue_SW_CHANGED_EVENT : lastSW = SW
 	Issue_SW_CHANGED_EVENT : changed = true
+	Issue_SW_CHANGED_EVENT : lastTick = TickGet()
 
-GetSW1 --> Issue_SW_CHANGED_EVENT : now == SW
-GetSW1 --> [*] : now != SW
+GetSW1 --> Issue_SW_CHANGED_EVENT : currSW == SW
+GetSW1 --> [*] : currSW != SW
 Issue_SW_CHANGED_EVENT --> [*]
 
 
