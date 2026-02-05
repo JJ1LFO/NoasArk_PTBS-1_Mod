@@ -12,78 +12,55 @@ Initialize --> MODE_MAN
 
 state MODE_MAN : Manual MODE
 
-MODE_MAN --> sel_num			: Press [MAN/PGM]
-MODE_MAN --> sel_bank				: Press [BANK]
-MODE_MAN --> write_num			: Press and Hold [MAN/PGM]
-MODE_MAN --> write_bank		: Press and Hold [BANK]
+MODE_MAN --> MODE_SEL_NUM			: Press [MAN/PGM]
+MODE_MAN --> MODE_SEL_BANK				: Press [BANK]
+MODE_MAN --> MODE_WRITE_NUM			: Press and Hold [MAN/PGM]
+MODE_MAN --> MODE_WRITE_BANK		: Press and Hold [BANK]
 
 
 state MODE_PGM : Program MODE
 
-state SEL_BANK_NUM {
-	state sel_num <<entryPoint>>
-	state sel_bank <<entryPoint>>
-
-	sel_num --> MODE_SEL_NUM
-	sel_bank --> MODE_SEL_BANK
-
-	state MODE_SEL_NUM 
-	state MODE_SEL_BANK 
-
-	MODE_SEL_NUM -> MODE_SEL_BANK		: Press [BANK]
-	MODE_SEL_NUM -up-> MODE_PGM			: Press [LOOP#]
-	MODE_SEL_NUM --> to_MODE_MAN0			: Press [MAN/PGM]
-	MODE_SEL_NUM -> to_MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
-	MODE_SEL_NUM -> to_MODE_WRITE_BANK		: Press and Hold [BANK]
-
-	MODE_SEL_BANK -> MODE_SEL_NUM		: Press [BANK]
-	MODE_SEL_BANK -> MODE_SEL_NUM		: Press [LOOP#]
-	MODE_SEL_BANK --> to_MODE_MAN0		: Press [MAN/PGM]
-	MODE_SEL_BANK -> to_MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
-	MODE_SEL_BANK -> to_MODE_WRITE_BANK		: Press and Hold [BANK]
-
-	state to_MODE_MAN0 <<exitPoint>>
-	to_MODE_MAN0 --> MODE_MAN
-
-	state to_MODE_WRITE_NUM <<exitPoint>>
-	to_MODE_WRITE_NUM --> write_num
-
-	state to_MODE_WRITE_BANK <<exitPoint>>
-	to_MODE_WRITE_BANK --> write_bank
-
-}
-
 MODE_PGM -left-> MODE_MAN			: Press [MAN/PGM]
-MODE_PGM --> sel_bank			: Press [BANK]
-MODE_PGM --> write_num			: Press and Hold [MAN/PGM]
-MODE_PGM --> write_bank		: Press and Hold [BANK]
+MODE_PGM --> MODE_SEL_BANK			: Press [BANK]
+MODE_PGM --> MODE_WRITE_NUM			: Press and Hold [MAN/PGM]
+MODE_PGM --> MODE_WRITE_BANK		: Press and Hold [BANK]
+
+state sel_write {
+	state SEL_BANK_NUM {
+		state MODE_SEL_NUM 
+		state MODE_SEL_BANK 
+
+		MODE_SEL_NUM --> MODE_SEL_BANK		: Press [BANK]
+		MODE_SEL_NUM -up-> MODE_PGM			: Press [LOOP#]
+		MODE_SEL_NUM -up-> MODE_MAN			: Press [MAN/PGM]
+		MODE_SEL_NUM --> MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
+		MODE_SEL_NUM --> MODE_WRITE_BANK		: Press and Hold [BANK]
+
+		MODE_SEL_BANK -up-> MODE_SEL_NUM		: Press [BANK]
+		MODE_SEL_BANK -up-> MODE_SEL_NUM		: Press [LOOP#]
+		MODE_SEL_BANK -up-> MODE_MAN		: Press [MAN/PGM]
+		MODE_SEL_BANK --> MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
+		MODE_SEL_BANK --> MODE_WRITE_BANK		: Press and Hold [BANK]
+
+	}
 
 
+	state WRITE_BANK_NUM {
+		state MODE_WRITE_NUM 
+		state MODE_WRITE_BANK 
 
+		MODE_WRITE_NUM -> Write_Memory		: Press [LOOP#]
+		MODE_WRITE_NUM --> MODE_WRITE_BANK	: Press [BANK]
+		MODE_WRITE_NUM -up-> MODE_MAN		: Press [MAN/PGM]
 
-state WRITE_BANK_NUM {
-	state write_num <<entryPoint>>
-	state write_bank <<entryPoint>>
-	
-	write_num --> MODE_WRITE_NUM
-	write_bank --> MODE_WRITE_BANK
+		MODE_WRITE_BANK --> MODE_WRITE_NUM	: Press [LOOP#]
+		MODE_WRITE_BANK -up-> MODE_MAN		: Press [MAN/PGM]
+		MODE_WRITE_BANK --> MODE_WRITE_NUM	: Press [BANK]
+		
 
-	state MODE_WRITE_NUM 
-	state MODE_WRITE_BANK 
-
-	MODE_WRITE_NUM --> Write_Memory		: Press [LOOP#]
-	MODE_WRITE_NUM -> MODE_WRITE_BANK	: Press [BANK]
-	MODE_WRITE_NUM --> to_MODE_MAN1		: Press [MAN/PGM]
-
-	MODE_WRITE_BANK -> MODE_WRITE_NUM	: Press [LOOP#]
-	MODE_WRITE_BANK --> to_MODE_MAN1	: Press [MAN/PGM]
-	MODE_WRITE_BANK -> MODE_WRITE_NUM	: Press [BANK]
-	
-	state to_MODE_MAN1 <<exitPoint>>
-	to_MODE_MAN1 --> MODE_MAN
+		Write_Memory -up-> MODE_PGM
+	}
 }
-
-Write_Memory -up-> MODE_PGM
 
 
 
