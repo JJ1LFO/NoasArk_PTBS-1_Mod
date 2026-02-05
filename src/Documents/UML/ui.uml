@@ -14,16 +14,16 @@ state MODE_MAN : Manual MODE
 
 MODE_MAN --> MODE_SEL_NUM			: Press [MAN/PGM]
 MODE_MAN --> MODE_SEL_BANK				: Press [BANK]
-MODE_MAN --> MODE_WRITE_NUM			: Press and Hold [MAN/PGM]
-MODE_MAN --> MODE_WRITE_BANK		: Press and Hold [BANK]
+MODE_MAN --> MODE_WRITE_NUM			: Press and Hold\n[MAN/PGM]
+MODE_MAN --> MODE_WRITE_BANK		: Press and Hold\n[BANK]
 
 
 state MODE_PGM : Program MODE
 
 MODE_PGM -left-> MODE_MAN			: Press [MAN/PGM]
 MODE_PGM --> MODE_SEL_BANK			: Press [BANK]
-MODE_PGM --> MODE_WRITE_NUM			: Press and Hold [MAN/PGM]
-MODE_PGM --> MODE_WRITE_BANK		: Press and Hold [BANK]
+MODE_PGM --> MODE_WRITE_NUM			: Press and Hold\n[MAN/PGM]
+MODE_PGM --> MODE_WRITE_BANK		: Press and Hold\n[BANK]
 
 state sel_write {
 	state SEL_BANK_NUM {
@@ -32,15 +32,16 @@ state sel_write {
 
 		MODE_SEL_NUM --> MODE_SEL_BANK		: Press [BANK]
 		MODE_SEL_NUM -up-> MODE_PGM			: Press [LOOP#]
-		MODE_SEL_NUM -up-> MODE_MAN			: Press [MAN/PGM]
-		MODE_SEL_NUM --> MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
-		MODE_SEL_NUM --> MODE_WRITE_BANK		: Press and Hold [BANK]
+		MODE_SEL_NUM -up[dashed]-> MODE_MAN			: Press [MAN/PGM]
+		MODE_SEL_NUM --> MODE_WRITE_NUM		: Press and Hold\n[MAN/PGM]
+		MODE_SEL_NUM --> MODE_WRITE_BANK		: Press and Hold\n[BANK]
 
 		MODE_SEL_BANK -up-> MODE_SEL_NUM		: Press [BANK]
 		MODE_SEL_BANK -up-> MODE_SEL_NUM		: Press [LOOP#]
-		MODE_SEL_BANK -up-> MODE_MAN		: Press [MAN/PGM]
-		MODE_SEL_BANK --> MODE_WRITE_NUM		: Press and Hold [MAN/PGM]
-		MODE_SEL_BANK --> MODE_WRITE_BANK		: Press and Hold [BANK]
+		MODE_SEL_BANK -up[dashed]-> MODE_MAN		: Press [MAN/PGM]
+		MODE_SEL_BANK --> MODE_WRITE_NUM		: Press and Hold\n[MAN/PGM]
+		' MODE_SEL_BANK --> MODE_WRITE_BANK		: Press and Hold\n[BANK]
+		MODE_SEL_BANK --> MODE_WRITE_BANK		: Press and Hold\n[BANK]
 
 	}
 
@@ -49,16 +50,17 @@ state sel_write {
 		state MODE_WRITE_NUM 
 		state MODE_WRITE_BANK 
 
-		MODE_WRITE_NUM -> Write_Memory		: Press [LOOP#]
+		MODE_WRITE_NUM -[bold]> Write_Memory		: Press [LOOP#]
+		Write_Memory -up[bold]-> MODE_PGM
+
 		MODE_WRITE_NUM --> MODE_WRITE_BANK	: Press [BANK]
-		MODE_WRITE_NUM -up-> MODE_MAN		: Press [MAN/PGM]
+		MODE_WRITE_NUM -up[dashed]-> MODE_MAN		: Press [MAN/PGM]
 
 		MODE_WRITE_BANK --> MODE_WRITE_NUM	: Press [LOOP#]
-		MODE_WRITE_BANK -up-> MODE_MAN		: Press [MAN/PGM]
+		MODE_WRITE_BANK -up[dashed]-> MODE_MAN		: Press [MAN/PGM]
 		MODE_WRITE_BANK --> MODE_WRITE_NUM	: Press [BANK]
 		
 
-		Write_Memory -up-> MODE_PGM
 	}
 }
 
