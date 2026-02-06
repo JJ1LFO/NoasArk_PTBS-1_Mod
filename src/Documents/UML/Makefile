@@ -1,5 +1,5 @@
 # UML2SVG=./uml2svg.sh
-UML2SVG= java -jar plantuml-mit-1.2025.4.jar -tsvg
+UML2SVG= java -jar plantuml.jar -tsvg
 
 SRCS=$(wildcard *.uml)
 SVGS=$(SRCS:.uml=.svg)
