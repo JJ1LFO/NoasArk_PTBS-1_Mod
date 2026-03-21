@@ -50,7 +50,6 @@
 
 
 static const uint16_t range[] = {
-	0,
 	(FOOT_SW_ADVAL_MUTE + FOOT_SW_ADVAL_BANK)/2,
 	(FOOT_SW_ADVAL_BANK + FOOT_SW_ADVAL_MAN_PGM)/2,
 	(FOOT_SW_ADVAL_MAN_PGM + FOOT_SW_ADVAL_1)/2,
@@ -59,7 +58,6 @@ static const uint16_t range[] = {
 	(FOOT_SW_ADVAL_3 + FOOT_SW_ADVAL_4)/2,
 	(FOOT_SW_ADVAL_4 + FOOT_SW_ADVAL_5)/2,
 	(FOOT_SW_ADVAL_5 + FOOT_SW_ADVAL_NONE)/2,
-	UINT16_MAX
 };
 
 
@@ -113,11 +111,11 @@ static FOOT_SW ad2sw(uint16_t val)
 
 	for(sw = 0; sw < sizeof(range)/sizeof(range[0]); sw++) {
 		if(val < range[sw]) {
-			break;
+			return sw;
 		}
 	}
 
-	return sw - 1;
+	return sw;
 }
 
 
