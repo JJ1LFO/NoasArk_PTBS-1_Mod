@@ -53,15 +53,19 @@ void ModeMan(bool changed, FOOT_SW sw)
 			break;
 		case FOOT_SW_MAN_PGM:
 			mode = MODE_SEL_NUM;
+			LED_PGM	= 1;
 			break;
 		case FOOT_SW_BANK:
 			mode = MODE_SEL_BANK;
+			LED_PGM	= 1;
 			break;
 		case FOOT_SW_MAN_PGM_AND_HOLD:
 			mode = MODE_WRITE_NUM;
+			LED_PGM	= 1;
 			break;
 		case FOOT_SW_BANK_AND_HOLD:
 			mode = MODE_WRITE_BANK;
+			LED_PGM	= 1;
 			break;
 		default:
 			break;
