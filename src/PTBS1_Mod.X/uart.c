@@ -32,6 +32,9 @@
 #include "uart.h"
 
 
+/**
+ * @brief Initialize.
+ */
 void UARTInit(void)
 {
 	
@@ -48,6 +51,12 @@ void UARTInit(void)
 }
 
 
+/**
+ * @brief Send data.
+ *
+ * @param data
+ * @param num
+ */
 void UARTSend(uint8_t* data, size_t num)
 {
 	for( ; 0 < num; num--) {

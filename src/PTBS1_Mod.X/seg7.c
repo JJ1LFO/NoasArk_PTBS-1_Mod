@@ -201,12 +201,20 @@ uint8_t seg7Buf = 0xFF;
 static bool isBlink = false;
 
 
+/**
+ * @brief	Set 7-SEG LED display. 
+ *
+ * @param hex
+ */
 void Seg7SetNum(uint8_t hex)
 {
 	seg7Buf = pattern[hex];
 }
 
 
+/**
+ * @brief	Display 7-SEG LED.
+ */
 void Seg7Disp(void)
 {
 	PORTB = seg7Buf | ((seg7IsOn)? 0x00:0xFF);

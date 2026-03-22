@@ -73,6 +73,9 @@ bool isCtrl;
 
 
 
+/**
+ * @brief	Setup. 
+ */
 static void Setup(void)
 {
 	PortInit();
@@ -98,6 +101,11 @@ static void Setup(void)
 }
 
 
+/**
+ * @brief main().
+ *
+ * @return 
+ */
 int main(void)
 {
 	Setup();
@@ -143,6 +151,11 @@ int main(void)
 }
 
 
+/**
+ * @brief Interrupt service routine.
+ *
+ * @param 
+ */
 void __interrupt() isr(void)
 {
     if (TMR0IF) {

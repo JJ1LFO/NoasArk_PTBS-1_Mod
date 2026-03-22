@@ -36,6 +36,9 @@
 
 bool isMute = false;
 
+/**
+ * @brief	Toggle MUTE On/Off. 
+ */
 void MuteToggle(void)
 {
 	isMute = !isMute;

@@ -47,6 +47,12 @@ uint8_t PgmBankNum2Adrs(uint8_t bank, uint8_t num)
 	return 5*bank + num;
 }
 
+/**
+ * @brief MODE_PGM
+ *
+ * @param changed
+ * @param sw
+ */
 void ModePgm(bool changed, FOOT_SW sw)
 {
 	LedPgmNum(pgm.num);

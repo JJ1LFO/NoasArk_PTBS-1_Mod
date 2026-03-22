@@ -47,11 +47,20 @@ static union {
 } ledBuf = { .byte = 0xFF };
 
 
+/**
+ * @brief	LEDs display update. 
+ */
 void LedDisp(void)
 {
 	PORTB = ledBuf.byte;
 }
 
+/**
+ * @brief	LED On/Off
+ *
+ * @param led	Whitch LED.
+ * @param on	true: On, false: Off.
+ */
 void LedOn(LED_BIT led, bool on)
 {
 	ledBuf.byte = (~(0x01<<led) & ledBuf.byte) | (uint8_t)((on)? 0x00:(0x01<<led)); 
@@ -66,6 +75,11 @@ static LED_BIT pgmLeds[] = {
 	LED_BIT_PGM5,
 };
 
+/**
+ * @brief Update PGM Number LEDs.
+ *
+ * @param pgmNum
+ */
 void LedPgmNum(uint8_t pgmNum)
 {
 	for(uint8_t num = 0; num < 5; num++) {
@@ -74,6 +88,11 @@ void LedPgmNum(uint8_t pgmNum)
 }
 
 
+/**
+ * @brief Turn on all PGM number LEDs
+ *
+ * @param on	true: On, false: Off.
+ */
 void LedPgmNumAllOn(bool on)
 {
 	for(uint8_t num = 0; num < 5; num++) {

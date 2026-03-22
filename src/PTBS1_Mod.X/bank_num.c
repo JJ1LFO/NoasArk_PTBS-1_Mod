@@ -45,7 +45,10 @@
 
 
 
-static void BlinkLEDs()
+/**
+ * @brief 
+ */
+static void BlinkLEDs(void)
 {
 	static unsigned int lastTick = 0;
 
@@ -90,6 +93,13 @@ static void BlinkLEDs()
 	}
 }
 
+
+/**
+ * @brief 
+ *
+ * @param changed	If foot switch has changed.
+ * @param sw		Which switch.	
+ */
 void BankNum(bool changed, FOOT_SW sw)
 {
 	LED_MAN	= 0;

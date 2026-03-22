@@ -35,6 +35,12 @@
 
 #include "mode_man.h"
 
+/**
+ * @brief MODE_MAN
+ *
+ * @param changed
+ * @param sw
+ */
 void ModeMan(bool changed, FOOT_SW sw)
 {
 	LED_MAN	= 1;

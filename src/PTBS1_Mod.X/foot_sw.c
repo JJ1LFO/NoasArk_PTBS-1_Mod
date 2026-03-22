@@ -35,7 +35,7 @@
 #include "foot_sw.h"
 
 
-#define	FOOT_SW_HOLD_MS		2000
+#define	FOOT_SW_HOLD_MS		2000	// (msec) Press and hold time.
 
 
 #define FOOT_SW_ADVAL_MUTE		  91
@@ -79,9 +79,9 @@ void FootSwInit(void)
 }
 
 /**
- * @brief 
+ * @brief	Get ADC value.
  *
- * @return 
+ * @return	ADC value. 
  */
 static uint16_t GetAD(void)
 {
@@ -99,11 +99,11 @@ static uint16_t GetAD(void)
 
 
 /**
- * @brief 
+ * @brief	Convert ADC value to SW value.
  *
- * @param val
+ * @param val	ADC value.
  *
- * @return 
+ * @return		SW. 
  */
 static FOOT_SW ad2sw(uint16_t val)
 {
@@ -120,11 +120,11 @@ static FOOT_SW ad2sw(uint16_t val)
 
 
 /**
- * @brief 
+ * @brief	Foot switch change detected. 
  *
  * @param sw
  *
- * @return	The switich was changed.
+ * @return	Foot switch was changed.
  */
 bool FootSwWasChanged(FOOT_SW* sw)
 {

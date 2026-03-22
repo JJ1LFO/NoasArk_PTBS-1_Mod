@@ -34,6 +34,9 @@
 
 volatile unsigned int tick = 0;
 
+/**
+ * @brief Initialize.
+ */
 void SysTickInit(void)
 {
 	T2CONbits.T2CKPS = 0;			// Prescaler is 1
@@ -45,12 +48,20 @@ void SysTickInit(void)
     TMR2IE = 1;
 }
 
+/**
+ * @brief Increment system tick.
+ */
 void SysTickInc(void)
 {
 	tick++;
 }
 
 
+/**
+ * @brief Get system tick.
+ *
+ * @return 
+ */
 unsigned int SysTickGet(void)
 {
 	TMR2IE = 0;	

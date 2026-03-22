@@ -31,6 +31,9 @@
 #include "port.h"
 
 
+/**
+ * @brief Initialize.
+ */
 void PortInit(void)
 {
 	// PORT A

@@ -36,12 +36,23 @@
 
 uint8_t loopStatus = 0;
 
+/**
+ * @brief	Is CTL mode. 
+ *
+ * @return 
+ */
 static bool IsCTL(void)
 {
 	return (0 == R_CTL_LOOP_SW)? true:false;
 }
 
 	
+/**
+ * @brief LOOP bit.
+ *
+ * @param bit
+ * @param on
+ */
 void LoopBitOn(LOOPn_BIT bit, bool on)
 {
 	loopStatus &= ~(1<<bit);
@@ -49,11 +60,23 @@ void LoopBitOn(LOOPn_BIT bit, bool on)
 }
 
 
+/**
+ * @brief Is LOOP bit on.
+ *
+ * @param num
+ *
+ * @return	true: On, false: Off.
+ */
 bool LoopBitIsOn(LOOPn_BIT num)
 {
 	return	0 != ((1<<num) & loopStatus);
 }
 
+/**
+ * @brief	Toggle LOOP bit.
+ *
+ * @param bit
+ */
 void LoopBitToggle(LOOPn_BIT bit)
 {
 	LoopBitOn(bit, !LoopBitIsOn(bit));
@@ -61,6 +84,11 @@ void LoopBitToggle(LOOPn_BIT bit)
 
 
 
+/**
+ * @brief	 
+ *
+ * @param status
+ */
 void LoopSet(uint8_t status)
 {
 	for(LOOPn_BIT num = 0; num < NUMOF_LOOPn_BIT; num++) {
@@ -69,6 +97,9 @@ void LoopSet(uint8_t status)
 }
 
 
+/**
+ * @brief Control LOOP relay.
+ */
 void LoopRelay(void)
 {
 	uint8_t port25 = ~LOOP25_CTL_ON_PORT_MASK & PORT_LOOP25_CTL_ON;

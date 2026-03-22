@@ -101,6 +101,9 @@ static const uint8_t model[] = {
 };
 
 
+/**
+ * @brief	Display version. 
+ */
 void VersionDisp(void)
 {
 	seg7IsOn = true;
